@@ -1,0 +1,44 @@
+import webbrowser
+my_symbs = 'abcdefghijklmnopqrstuvwxyzæøøåABCDEFGHIJKL' \
+           'MNOPQRSTUVWXYZÆØÅ#@$(&)_=-+\':%/"*,.' \
+           '!?1234567890£€¥¢©®~¿[]{}<>^¡`;÷|¦¬×§¶°}])'
+
+
+
+def file_by_letter(file):
+    with open(file, 'rb') as file:
+        data = file.read()
+        listfile = str(data)
+    return listfile
+
+
+def index_beginner(stringput):
+    counter = 0
+    url_index_start = []
+    new_link = ''
+    url_list = []
+
+    for letter in stringput:
+        if letter == 'h':
+            if stringput[counter + 1] == 't':
+                if stringput[counter + 2] == 't':
+                    if stringput[counter + 3] == 'p':
+                        url_index_start.append(counter)
+                        inside_counter = counter
+                        for i in stringput[inside_counter:-1]:
+                            if i not in my_symbs:
+                                inside_counter = 0
+                                break
+                            else:
+                                url_index_start.append(inside_counter)
+                                inside_counter += 1
+                                new_link += i
+                    url_list.append(new_link)
+                    new_link = ''
+        counter += 1
+    return url_list
+
+
+file_text = str(file_by_letter('text.txt'))
+for each in index_beginner(file_text):
+    webbrowser.open_new(each)
